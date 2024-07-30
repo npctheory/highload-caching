@@ -1,0 +1,33 @@
+### Register
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+  "first_name": "John",
+  "second_name": "Doe",
+  "birthdate": "1990-01-01",
+  "biography": "Software developer with a passion for open-source projects.",
+  "city": "New York",
+  "password": "password"
+}
+
+### Login
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "id": "AbilityAhead1981",
+  "password": "password"
+}
+
+
+### Search
+GET http://localhost:8080/api/profile/search?first_name=W&second_name=W
+Content-Type: application/json
+Authorization: f1799bfe-8045-4189-9d7f-faa2710419a5
+
+
+### Get by id
+GET http://localhost:35080/api/profile/FinancialSource4397
+Content-Type: application/json
+Authorization: cad1875f-6e8a-4817-8077-c6a29cf6b2a7

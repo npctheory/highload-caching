@@ -1,0 +1,4 @@
+
+GET http://localhost:8080/post/feed?authorUserId=NoticeFood2228
+Content-Type: application/json
+Authorization: 8fa98e2d-9fbe-4c10-9cbb-bdf2d9a1d4f9

@@ -1,0 +1,10 @@
+### List request
+GET http://localhost:8080/api/friend/list
+Content-Type: application/json
+Authorization: 8fa98e2d-9fbe-4c10-9cbb-bdf2d9a1d4f9
+
+
+### Delete request
+PUT http://localhost:8080/api/friend/delete/BabySister1111
+Content-Type: application/json
+Authorization: 8fa98e2d-9fbe-4c10-9cbb-bdf2d9a1d4f9
