@@ -21,8 +21,5 @@ client/bin/
 
 # Spring Boot
 server/target/
-/server/Api/obj/
-/server/Contracts/obj/
-/server/Application/obj/
-/server/Infrastructure/obj/
-/server/Domain/obj/
+server/Api/obj/
+server/Api/bin/
