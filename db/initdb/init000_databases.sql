@@ -25,6 +25,15 @@ INSERT INTO users VALUES
 ('user','$2a$10$yHWO5o4p2aQ.vmxkxBIxWezk5mB8V2soVO3xRG9fBjFweNI67qZk2','User','User','1970-01-01','Usage','Moscow');
 
 
+CREATE TABLE IF NOT EXISTS tokens (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id VARCHAR(255) NOT NULL,
+    token TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expires_at TIMESTAMP NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE IF NOT EXISTS friends (
     user_id VARCHAR(255) NOT NULL,
     friend_id VARCHAR(255) NOT NULL,

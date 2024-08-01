@@ -1,44 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
-using Api.Authentication;
+using Api.DTO;
 using Api.Services.Authentication;
+using System.Threading.Tasks;
 
-namespace Api.Controllers;
-
-[ApiController]
-public class AuthenticationController: ControllerBase
+namespace Api.Controllers
 {
-    private readonly IAuthenticationService _authenticationService;
-
-    public AuthenticationController(IAuthenticationService authenticationService)
+    [ApiController]
+    public class AuthenticationController : ControllerBase
     {
-        _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
-    }
+        private readonly IAuthenticationService _authenticationService;
 
-    [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
-    {
-        var authResult = _authenticationService.Register(
-            request.FirstName,
-            request.SecondName,
-            request.Birthdate,
-            request.Biography,
-            request.City,
-            request.Password
-        );
+        public AuthenticationController(IAuthenticationService authenticationService)
+        {
+            _authenticationService = authenticationService ?? throw new ArgumentNullException(nameof(authenticationService));
+        }
 
-        var response = new AuthenticationResponse(authResult.token);
-        return Ok(response);
-    }
-
-    [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
-    {
-        var authResult = _authenticationService.Login(
-            request.Id,
-            request.Password
-        );
-
-        var response = new AuthenticationResponse("login_token");
-        return Ok(response);
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginRequest request)
+        {
+            var result = await _authenticationService.LoginAsync(request.Id, request.Password);
+            var response = new AuthenticationResponse(result.Token);
+            return Ok(response);
+        }
     }
 }

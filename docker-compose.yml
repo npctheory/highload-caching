@@ -19,26 +19,26 @@ services:
     networks:
       - highload_net
 
-  server:
-    build:
-      context: ./server
-    container_name: server
-    image: server:local
-    restart: unless-stopped
-    depends_on:
-      - pg_master
-    ports:
-      - "35080:8080"
-    volumes:
-      - app_data:/BOOT-INF/classes
-    environment:
-      DB_HOST: pg_master
-      DB_PORT: 5432
-      DB_NAME: highload_social
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-    networks:
-      - highload_net
+  # server:
+  #   build:
+  #     context: ./server
+  #   container_name: server
+  #   image: server:local
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - pg_master
+  #   ports:
+  #     - "35080:8080"
+  #   volumes:
+  #     - app_data:/BOOT-INF/classes
+  #   environment:
+  #     DB_HOST: pg_master
+  #     DB_PORT: 5432
+  #     DB_NAME: highload_social
+  #     DB_USER: postgres
+  #     DB_PASSWORD: postgres
+  #   networks:
+  #     - highload_net
 
   pgadmin:
     image: dpage/pgadmin4:latest

@@ -1,10 +1,11 @@
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFbnRlclNob3c5MzcyIiwiZ2l2ZW5fbmFtZSI6IldpbGxpYW0iLCJmYW1pbHlfbmFtZSI6IldhdHNvbiIsImp0aSI6ImRlZDk1NzljLTQ3ZjAtNDY3MC1iYWYzLTIyM2M5OWFmZWM5ZiIsImV4cCI6MTcyMjQ5MzM4NSwiaXNzIjoiSGlnaGxvYWRTb2NpYWwiLCJhdWQiOiJIaWdobG9hZFNvY2lhbCJ9.jqeB2MTdbxH8McSzx1M3v-yKkl5VqvmUE99tJI-R7AE
 ### List request
-GET http://localhost:8080/api/friend/list
+GET http://localhost:80/friend/list
 Content-Type: application/json
-Authorization: 8fa98e2d-9fbe-4c10-9cbb-bdf2d9a1d4f9
+Authorization: Bearer {{token}}
 
 
 ### Delete request
 PUT http://localhost:8080/api/friend/delete/BabySister1111
 Content-Type: application/json
-Authorization: 8fa98e2d-9fbe-4c10-9cbb-bdf2d9a1d4f9
+Authorization: Bearer {{token}}

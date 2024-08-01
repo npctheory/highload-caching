@@ -17,9 +17,14 @@ csv_file = os.path.join(csv_directory, 'fake_users.csv')
 # Ensure the directory exists
 os.makedirs(csv_directory, exist_ok=True)
 
-# Function to generate a hashed password
-def generate_password_hash(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+# Define the fixed password
+password = "password"
+
+# Function to generate a hashed password using SHA-256
+def generate_password_hash(password, salt):
+    # Concatenate the password with the salt and hash it
+    hash_object = hashlib.sha256((password + salt).encode())
+    return hash_object.hexdigest()
 
 # Function to generate a human-readable ID
 def generate_human_readable_id():
@@ -36,14 +41,18 @@ with open(csv_file, mode='w', newline='') as file:
     
     for _ in range(num_users):
         user_id = generate_human_readable_id()
-        password_hash = generate_password_hash(fake.password())
         first_name = fake.first_name()
         second_name = fake.last_name()
         birthdate = fake.date_of_birth(minimum_age=18, maximum_age=90).isoformat()
         biography = fake.word()
         city = fake.city()
-        
+
+        # Generate a unique salt for each user
+        salt = os.urandom(16).hex()
+        # Hash the password with the salt
+        password_hash = generate_password_hash(password, salt)
+
         # Write the user data to the CSV file
-        writer.writerow([user_id, password_hash, first_name, second_name, birthdate, biography, city])
+        writer.writerow([user_id, f"{salt}:{password_hash}", first_name, second_name, birthdate, biography, city])
 
 print(f'{num_users} fake users have been written to {csv_file}')

@@ -1,6 +1,9 @@
-using Api.Common.Interfaces.Services;
-
 namespace Api.Services;
+
+public interface IDateTimeProvider
+{
+    DateTime UtcNow {get;}
+}
 
 public class DateTimeProvider : IDateTimeProvider
 {

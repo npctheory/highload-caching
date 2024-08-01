@@ -3,11 +3,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using Api.Common.Interfaces.Authentication;
-using Api.Common.Interfaces.Services;
 using Microsoft.Extensions.Options;
+using Api.Services;
 
 namespace Api.Authentication;
+
+public interface IJwtTokenGenerator
+{
+    string GenerateToken(string user_id,string first_name,string second_name);
+}
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {

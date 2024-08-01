@@ -8,12 +8,19 @@ dotnet sln ./server/HighloadSocial.sln add server/Api/Api.csproj
 dotnet add ./server/Api/ package Microsoft.Extensions.DependencyInjection.Abstractions
 dotnet add ./server/Api/ package System.IdentityModel.Tokens.Jwt
 dotnet add ./server/Api/ package Microsoft.Extensions.Options.ConfigurationExtensions
+dotnet add ./server/Api/ package Npgsql
+dotnet add ./server/Api/ package Mapster
+dotnet add ./server/Api/ package Mapster.DependencyInjection
+dotnet add ./server/Api/ package Bogus
+dotnet add ./server/Api/ package Bcrypt.Net
+dotnet add ./server/Api/ package Microsoft.AspNetCore.Authentication.JwtBearer
 
 mkdir -p server/Api/Authentication
 mkdir -p server/Api/Controllers
 mkdir -p server/Api/Services/Authentication
 mkdir -p server/Api/Common/Interfaces/Authentication
 mkdir -p server/Api/Common/Interfaces/Services
+mkdir -p server/Api/Repositories
 ```
 **IJwtTokenGenerator.cs**
 ```bash
@@ -287,6 +294,51 @@ public class AuthenticationService : IAuthenticationService
 }
 EOF
 ```
+
+**appsettings.json**
+```bash
+cat > server/Api/appsettings.json << 'EOF'
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "JwtSettings": {
+    "Secret": "this-is-a-very-secure-and-long-key-32-bytes-long",
+    "ExpiryMinutes": 60,
+    "Issuer": "HighloadSocial",
+    "Audience": "HighloadSocial"
+  }
+}
+EOF
+```
+
+**appsettings.Development.json**
+```bash
+cat > server/Api/appsettings.json << 'EOF'
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "JwtSettings": {
+    "Secret": "this-is-a-very-secure-and-long-key-32-bytes-long",
+    "ExpiryMinutes": 60,
+    "Issuer": "HighloadSocial",
+    "Audience": "HighloadSocial"
+  }
+}
+EOF
+```
+
+
+
 **Program.cs**
 ```bash
 cat > server/Api/Program.cs << 'EOF'

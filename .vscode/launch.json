@@ -16,7 +16,12 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ASPNETCORE_URLS": "http://localhost:5000" // Add this line to set the application URL
+                "ASPNETCORE_URLS": "http://localhost:80",
+                "PRIMARY_DB_HOST": "localhost",
+                "PRIMARY_DB_PORT": "35432",
+                "PRIMARY_DB_NAME": "highloadsocial",
+                "PRIMARY_DB_USER": "postgres",
+                "PRIMARY_DB_PASSWORD": "postgres"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/server/Views"
