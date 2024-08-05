@@ -4,26 +4,28 @@ using Application.Interfaces;
 using Application.DAO;
 using Application.Users.Queries.GetUser;
 using Domain.Entities;
-using Mapster;
+using AutoMapper;
 using MediatR;
 using Application.DTO;
 
-
-namespace Application.Users.Queries.GetUser;
-
-public class GetUserQueryHandler  : IRequestHandler<GetUserQuery, UserDTO>
+namespace Application.Users.Queries.GetUser
 {
-    private readonly IUserRepository _usersRepository;
-
-
-    public GetUserQueryHandler(IUserRepository usersRepository)
+    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDTO>
     {
-        _usersRepository = usersRepository;
-    }
+        private readonly IUserRepository _usersRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<UserDTO> Handle(GetUserQuery request, CancellationToken cancellationToken)
-    {
-        User user = (await _usersRepository.GetUserByIdAsync(request.Id)).Adapt<User>();
-        return user.Adapt<UserDTO>();
+        public GetUserQueryHandler(IUserRepository usersRepository, IMapper mapper)
+        {
+            _usersRepository = usersRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<UserDTO> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        {
+            UserDAO userDAO = await _usersRepository.GetUserByIdAsync(request.Id);
+            User user = _mapper.Map<User>(userDAO);
+            return _mapper.Map<UserDTO>(user);
+        }
     }
 }

@@ -20,7 +20,29 @@ app.MapControllers();
 app.Run();
 ```
 
+**User.cs**
+```csharp
+using System.ComponentModel.DataAnnotations;
 
+namespace Domain.Entities;
+
+public class User
+{
+    public string Id { get; set; }
+
+    public string? Password { get; set; }
+
+    public string FirstName { get; set; }
+
+    public string SecondName { get; set; }
+
+    public DateTime Birthdate { get; set; }
+
+    public string Biography { get; set; }
+
+    public string City { get; set; }
+}
+```
 **UserDTO.cs**
 ```csharp
 using System;
@@ -37,34 +59,6 @@ public record UserDTO(
     string City
 );
 ```
-
-**User.cs**
-```csharp
-using System.ComponentModel.DataAnnotations;
-
-namespace Domain.Entities;
-
-public class User
-{
-    [StringLength(255)]
-    public string? Id { get; set; }
-
-    [StringLength(255)]
-    public string? PasswordHash { get; set; }
-
-    [StringLength(255)]
-    public string? FirstName { get; set; }
-
-    [StringLength(255)]
-    public string? SecondName { get; set; }
-
-    public DateTime? Birthdate { get; set; }
-
-    public string? Biography { get; set; }
-
-    public string? City { get; set; }
-}
-```
 **UserDAO.cs**
 ```csharp
 using System.ComponentModel.DataAnnotations;
@@ -73,23 +67,39 @@ namespace Application.DAO;
 
 public class UserDAO
 {
-    [StringLength(255)]
-    public string? Id { get; set; }
+    public string Id { get; set; }
 
-    [StringLength(255)]
-    public string? PasswordHash { get; set; }
+    public string PasswordHash { get; set; }
 
-    [StringLength(255)]
-    public string? FirstName { get; set; }
+    public string FirstName { get; set; }
 
-    [StringLength(255)]
-    public string? SecondName { get; set; }
+    public string SecondName { get; set; }
 
-    public DateTime? Birthdate { get; set; }
+    public DateTime Birthdate { get; set; }
 
-    public string? Biography { get; set; }
+    public string Biography { get; set; }
 
-    public string? City { get; set; }
+    public string City { get; set; }
+}
+```
+
+**MappingProfile.cs**
+```csharp
+using AutoMapper;
+using Application.DTO;
+using Domain.Entities;
+using Application.DAO;
+
+namespace Application.Mapping
+{
+    public class MappingProfile : Profile
+    {
+        public MappingProfile()
+        {
+            CreateMap<UserDAO, User>();
+            CreateMap<User, UserDTO>();
+        }
+    }
 }
 ```
 
@@ -236,7 +246,7 @@ public class UserRepository : IUserRepository
 ```
 **PostgresConnectionFactory.cs**
 ```csharp
-namespace Infrastructure.Persistence;
+namespace Infrastructure.Common;
 
 using Npgsql;
 using System;
@@ -272,9 +282,11 @@ public class PostgresConnectionFactory
 ```csharp
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.Json;
 using Application.DTO;
 using Application.Users.Queries.GetUser;
 using Application.Users.Queries.SearchUsers;
+using Application.Users.Queries.Login;
 using MediatR;
 
 namespace Api.Controllers
@@ -327,27 +339,29 @@ using Application.Interfaces;
 using Application.DAO;
 using Application.Users.Queries.GetUser;
 using Domain.Entities;
-using Mapster;
+using AutoMapper;
 using MediatR;
 using Application.DTO;
 
-
-namespace Application.Users.Queries.GetUser;
-
-public class GetUserQueryHandler  : IRequestHandler<GetUserQuery, UserDTO>
+namespace Application.Users.Queries.GetUser
 {
-    private readonly IUserRepository _usersRepository;
-
-
-    public GetUserQueryHandler(IUserRepository usersRepository)
+    public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDTO>
     {
-        _usersRepository = usersRepository;
-    }
+        private readonly IUserRepository _usersRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<UserDTO> Handle(GetUserQuery request, CancellationToken cancellationToken)
-    {
-        User user = (await _usersRepository.GetUserByIdAsync(request.Id)).Adapt<User>();
-        return user.Adapt<UserDTO>();
+        public GetUserQueryHandler(IUserRepository usersRepository, IMapper mapper)
+        {
+            _usersRepository = usersRepository;
+            _mapper = mapper;
+        }
+
+        public async Task<UserDTO> Handle(GetUserQuery request, CancellationToken cancellationToken)
+        {
+            UserDAO userDAO = await _usersRepository.GetUserByIdAsync(request.Id);
+            User user = _mapper.Map<User>(userDAO);
+            return _mapper.Map<UserDTO>(user);
+        }
     }
 }
 ```
@@ -368,29 +382,31 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.DAO;
-using Application.Users.Queries.GetUser;
+using Application.Users.Queries.SearchUsers;
 using Domain.Entities;
-using Mapster;
+using AutoMapper;
 using MediatR;
 using Application.DTO;
 
-namespace Application.Users.Queries.SearchUsers;
-
-public class SearchUsersQueryHandler : IRequestHandler<SearchUsersQuery, List<UserDTO>>
+namespace Application.Users.Queries.SearchUsers
 {
-    private readonly IUserRepository _userRepository;
-
-    public SearchUsersQueryHandler(IUserRepository userRepository)
+    public class SearchUsersQueryHandler : IRequestHandler<SearchUsersQuery, List<UserDTO>>
     {
-        _userRepository = userRepository;
-    }
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<List<UserDTO>> Handle(SearchUsersQuery request, CancellationToken cancellationToken)
-    {
+        public SearchUsersQueryHandler(IUserRepository userRepository, IMapper mapper)
+        {
+            _userRepository = userRepository;
+            _mapper = mapper;
+        }
 
-        List<UserDAO> userDAOs = await _userRepository.SearchUsersAsync(request.first_name, request.second_name);
-        List<User> results = userDAOs.Adapt<List<User>>();
-        return results.Adapt<List<UserDTO>>();
+        public async Task<List<UserDTO>> Handle(SearchUsersQuery request, CancellationToken cancellationToken)
+        {
+            List<UserDAO> userDAOs = await _userRepository.SearchUsersAsync(request.first_name, request.second_name);
+            List<User> users = _mapper.Map<List<User>>(userDAOs);
+            return _mapper.Map<List<UserDTO>>(users);
+        }
     }
 }
 ```

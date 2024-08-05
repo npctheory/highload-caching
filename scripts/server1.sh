@@ -26,7 +26,8 @@ mkdir -p server/Application/Users/Queries/SearchUsers
 mkdir -p server/Application/Interfaces
 mkdir -p server/Application/DTO
 mkdir -p server/Application/DAO
-mkdir -p server/Infrastructure/Persistence
+mkdir -p server/Application/Mapping
+mkdir -p server/Infrastructure/Common
 mkdir -p server/Infrastructure/Repositories
 mkdir -p server/Domain/Entities
 
@@ -34,7 +35,8 @@ mkdir -p server/Domain/Entities
 touch server/Application/DTO/UserDTO.cs
 touch server/Domain/Entities/User.cs
 touch server/Application/DAO/UserDAO.cs
-touch server/Infrastructure/Persistence/PostgresConnectionFactory.cs
+touch server/Infrastructure/Common/PostgresConnectionFactory.cs
+touch server/Application/Mapping/MappingProfile.cs
 touch server/Application/Interfaces/IUserRepository.cs
 touch server/Infrastructure/Repositories/UserRepository.cs
 touch server/Api/Controllers/UserController.cs
@@ -43,12 +45,16 @@ touch server/Application/Users/Queries/GetUser/GetUserQueryHandler.cs
 touch server/Application/Users/Queries/SearchUsers/SearchUsersQuery.cs
 touch server/Application/Users/Queries/SearchUsers/SearchUsersQueryHandler.cs
 
-dotnet add server/Api/ package Mapster
-dotnet add server/Api/ package Mapster.DependencyInjection
-dotnet add server/Application/ package Mapster
-dotnet add server/Application/ package Mapster.DependencyInjection
+
+dotnet add server/Api/ package AutoMapper
+dotnet add server/Application/ package AutoMapper
 dotnet add server/Application/ package MediatR
 dotnet add server/Application/ package MediatR.DependencyInjection
 dotnet add server/Infrastructure/ package Npgsql
 dotnet add server/Infrastructure/ package Bogus
 
+
+
+dotnet add server/Api/ package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add server/Infrastructure/ package Microsoft.Extensions.Options
+dotnet add server/Infrastructure/ package System.IdentityModel.Tokens.Jwt

@@ -2,28 +2,30 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.DAO;
-using Application.Users.Queries.GetUser;
+using Application.Users.Queries.SearchUsers;
 using Domain.Entities;
-using Mapster;
+using AutoMapper;
 using MediatR;
 using Application.DTO;
 
-namespace Application.Users.Queries.SearchUsers;
-
-public class SearchUsersQueryHandler : IRequestHandler<SearchUsersQuery, List<UserDTO>>
+namespace Application.Users.Queries.SearchUsers
 {
-    private readonly IUserRepository _userRepository;
-
-    public SearchUsersQueryHandler(IUserRepository userRepository)
+    public class SearchUsersQueryHandler : IRequestHandler<SearchUsersQuery, List<UserDTO>>
     {
-        _userRepository = userRepository;
-    }
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-    public async Task<List<UserDTO>> Handle(SearchUsersQuery request, CancellationToken cancellationToken)
-    {
+        public SearchUsersQueryHandler(IUserRepository userRepository, IMapper mapper)
+        {
+            _userRepository = userRepository;
+            _mapper = mapper;
+        }
 
-        List<UserDAO> userDAOs = await _userRepository.SearchUsersAsync(request.first_name, request.second_name);
-        List<User> results = userDAOs.Adapt<List<User>>();
-        return results.Adapt<List<UserDTO>>();
+        public async Task<List<UserDTO>> Handle(SearchUsersQuery request, CancellationToken cancellationToken)
+        {
+            List<UserDAO> userDAOs = await _userRepository.SearchUsersAsync(request.first_name, request.second_name);
+            List<User> users = _mapper.Map<List<User>>(userDAOs);
+            return _mapper.Map<List<UserDTO>>(users);
+        }
     }
 }

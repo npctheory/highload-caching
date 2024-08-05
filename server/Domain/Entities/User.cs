@@ -4,21 +4,17 @@ namespace Domain.Entities;
 
 public class User
 {
-    [StringLength(255)]
-    public string? Id { get; set; }
+    public string Id { get; set; }
 
-    [StringLength(255)]
-    public string? PasswordHash { get; set; }
+    public string? Password { get; set; }
 
-    [StringLength(255)]
-    public string? FirstName { get; set; }
+    public string FirstName { get; set; }
 
-    [StringLength(255)]
-    public string? SecondName { get; set; }
+    public string SecondName { get; set; }
 
-    public DateTime? Birthdate { get; set; }
+    public DateTime Birthdate { get; set; }
 
-    public string? Biography { get; set; }
+    public string Biography { get; set; }
 
-    public string? City { get; set; }
+    public string City { get; set; }
 }
