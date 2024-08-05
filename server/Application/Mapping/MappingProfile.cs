@@ -12,10 +12,14 @@ namespace Application.Mapping
             CreateMap<UserDAO, User>();
             CreateMap<User, UserDTO>();
 
+            CreateMap<TokenDAO, Token>();
             CreateMap<Token, TokenDAO>();
-
+            
             CreateMap<Token, TokenDTO>()
                 .ForMember(dest => dest.token, opt => opt.MapFrom(src => src.Value));
+
+            CreateMap<TokenDTO, Token>()
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.token));
         }
     }
 }

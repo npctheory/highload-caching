@@ -52,9 +52,3 @@ dotnet add server/Application/ package MediatR
 dotnet add server/Application/ package MediatR.DependencyInjection
 dotnet add server/Infrastructure/ package Npgsql
 dotnet add server/Infrastructure/ package Bogus
-
-
-
-dotnet add server/Api/ package Microsoft.AspNetCore.Authentication.JwtBearer
-dotnet add server/Infrastructure/ package Microsoft.Extensions.Options
-dotnet add server/Infrastructure/ package System.IdentityModel.Tokens.Jwt
