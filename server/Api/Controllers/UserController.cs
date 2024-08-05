@@ -1,45 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
-using Api.Services;
 using Microsoft.AspNetCore.Authorization;
-using Mapster;
-using Api.DTO;
+using Application.DTO;
+using Application.Users.Queries.GetUser;
+using Application.Users.Queries.SearchUsers;
+using MediatR;
 
 namespace Api.Controllers
 {
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly ISender _mediator;
 
-        public UserController(IUserService userService)
+        public UserController(ISender mediator)
         {
-            _userService = userService;
+            _mediator = mediator;
         }
 
         [AllowAnonymous]
         [HttpGet("user/get/{id}")]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute] string id)
         {
-            if (string.IsNullOrEmpty(id))
-                return BadRequest("User ID cannot be null or empty.");
-
-            var user = await _userService.GetUserByIdAsync(id);
-
-            if (user == null)
-                return NotFound("User not found.");
-
-            return Ok(user.Adapt<UserResponse>());
+            var userResult = await _mediator.Send(new GetUserQuery(id));        
+            return Ok(userResult);
         }
 
         [AllowAnonymous]
         [HttpGet("user/search")]
         public async Task<IActionResult> SearchUsersAsync([FromQuery] string first_name, [FromQuery] string second_name)
         {
-            if (string.IsNullOrEmpty(first_name) || string.IsNullOrEmpty(second_name))
-                return BadRequest("First name and last name cannot be null or empty.");
-
-            var users = await _userService.SearchUsersAsync(first_name, second_name);
-            return Ok(users.Adapt<List<UserResponse>>());
+            var usersResult = await _mediator.Send(new SearchUsersQuery(first_name,second_name));
+            return Ok(usersResult);
         }
     }
 }

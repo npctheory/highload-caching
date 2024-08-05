@@ -1,0 +1,12 @@
+C:\Repos\highload-caching\server\Domain\bin\Debug\net8.0\Domain.deps.json
+C:\Repos\highload-caching\server\Domain\bin\Debug\net8.0\Domain.dll
+C:\Repos\highload-caching\server\Domain\bin\Debug\net8.0\Domain.pdb
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\Domain.sourcelink.json
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\Domain.dll
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\refint\Domain.dll
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\Domain.pdb
+C:\Repos\highload-caching\server\Domain\obj\Debug\net8.0\ref\Domain.dll
