@@ -28,6 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddScoped<IUserRepository>(sp => new UserRepository(connectionString));
     builder.Services.AddScoped<ITokenRepository>(sp => new TokenRepository(connectionString));
+    builder.Services.AddScoped<IFriendRepository>(sp => new FriendRepository(connectionString));
 
     builder.Services.AddControllers();
 
@@ -59,6 +60,8 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 {
     app.UseHttpsRedirection();
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.MapControllers();
     app.Run();
 }

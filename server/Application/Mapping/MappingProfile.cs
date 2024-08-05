@@ -20,6 +20,10 @@ namespace Application.Mapping
 
             CreateMap<TokenDTO, Token>()
                 .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.token));
+
+            CreateMap<FriendDAO, Friend>();
+            CreateMap<Friend, FriendDTO>()
+                .ForMember(dest => dest.user_id, opt => opt.MapFrom(src => src.FriendId));;
         }
     }
 }
