@@ -1,10 +1,26 @@
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFbnRlclNob3c5MzcyIiwiZ2l2ZW5fbmFtZSI6IldpbGxpYW0iLCJmYW1pbHlfbmFtZSI6IldhdHNvbiIsImp0aSI6IjNhOGFmNGM2LTNkOTAtNDE5OS04ZGEzLTcxYTM2N2E0MmVkOCIsImV4cCI6MTcyNjA5Mzk4MiwiaXNzIjoiSGlnaGxvYWRTb2NpYWwiLCJhdWQiOiJIaWdobG9hZFNvY2lhbCJ9.u6cu-d8eyWinO8mLjaFsRwXfCYOzSUJTCpSRLHl3kBk
-GET http://localhost:80/friend/list
+@host=localhost:80
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFbnRlclNob3c5MzcyIiwiZ2l2ZW5fbmFtZSI6IldpbGxpYW0iLCJmYW1pbHlfbmFtZSI6IldhdHNvbiIsImp0aSI6IjM2ZDQ3MzgyLWVkOTItNGE5Ny05MDc5LWNjMDJmNWU4YmEyMCIsImV4cCI6MTcyNjQ2MDc3MSwiaXNzIjoiSGlnaGxvYWRTb2NpYWwiLCJhdWQiOiJIaWdobG9hZFNvY2lhbCJ9.B9sDz5s7kRLwupn4Lrf9VZUakLrUr4ozBJl8ERBNZuA
+### Login
+POST http://{{host}}/login
+Content-Type: application/json
+
+{
+  "id": "EnterShow9372",
+  "password": "password"
+}
+
+### List friends
+GET http://{{host}}/friend/list
 Content-Type: application/json
 Authorization: Bearer {{token}}
 
 
-### Delete request
-PUT http://localhost:8080/api/friend/delete/BabySister1111
+### Delete friend
+PUT http://{{host}}/friend/delete/admin
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Set friend
+PUT http://{{host}}/friend/set/admin
 Content-Type: application/json
 Authorization: Bearer {{token}}
